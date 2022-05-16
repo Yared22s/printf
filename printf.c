@@ -9,7 +9,7 @@ int _printf(const char *format, ...)
 {
 	va_list list;
 	unsigned int i = 0, characters_number = 0;
-	
+
 	if (!format)
 		return (-1);
 
@@ -20,6 +20,7 @@ int _printf(const char *format, ...)
 		{
 			if (format[i + 1] == '\0')
 				return (-1);
+
 			else if (format[i + 1] == '%')
 			{
 				_putchar('%');
@@ -43,15 +44,14 @@ int _printf(const char *format, ...)
 			characters_number++;
 		}
 	}
-		va_end(list);
-		return (characters_number);
+	va_end(list);
+	return (characters_number);
 }
-int (*cmp_func(const char a)) (va_list)
+int (*cmp_func(const char a))(va_list)
 {
 	print_f printf[] = {
 		{'c', printc},
 		{'s', print_string},
-		{'%', print_n},
 		{'d', print_n},
 		{'i', print_n},
 		{'\0', NULL}
