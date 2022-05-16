@@ -54,6 +54,7 @@ int (*cmp_func(const char a))(va_list)
 		{'s', print_string},
 		{'d', print_n},
 		{'i', print_n},
+		{'%', print_n},
 		{'\0', NULL}
 	};
 
