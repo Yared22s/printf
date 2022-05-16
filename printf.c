@@ -51,6 +51,7 @@ int (*cmp_func(const char a)) (va_list)
 	print_f printf[] = {
 		{'c', printc},
 		{'s', print_string},
+		{'%', print_n},
 		{'d', print_n},
 		{'i', print_n},
 		{'\0', NULL}
