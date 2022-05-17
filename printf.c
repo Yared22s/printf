@@ -1,70 +1,45 @@
 #include "main.h"
 /**
- * _printf - printf function.
- * @format: variable
- *
- * Return: nbytes printed.
+ * printf - is a function that selects the correct function to print.
+ * @format: identifier to look for.
+ * Return: nbyts printed.
  */
-int _printf(const char *format, ...)
+int _printf(const char * const format, ...)
 {
-	va_list list;
-	unsigned int i = 0, characters_number = 0;
-
-	if (!format)
-		return (-1);
-
-	va_start(list, format);
-	for (i = 0; format[i] != '\0'; i++)
-	{
-		if (format[i] == '%')
-		{
-			if (format[i + 1] == '\0')
-				return (-1);
-			else if (format[i + 1] == '%')
-			{
-				_putchar('%');
-				characters_number++;
-				i++;
-			}
-			else if (cmp_func(format[i + 1]) != NULL)
-			{
-				characters_number += (cmp_func(format[i + 1]))(list);
-				i++;
-			}
-			else
-			{
-				_putchar(format[i]);
-				characters_number++;
-			}
-		}
-		else
-		{
-			_putchar(format[i]);
-			characters_number++;
-		}
-	}
-	va_end(list);
-	return (characters_number);
-}
-int (*cmp_func(const char a))(va_list)
-{
-	print_f printf[] = {
-		{'c', printc},
-		{'s', print_string},
-		{'d', print_n},
-		{'i', print_n},
-		{'\0', NULL}
+	convert_match m[] = {
+		{"%s", printf_string}, 
+		{"%c", printf_char},
+		{"%%", printf_37},
+		{"%i", printf_int}, 
+		{"%d", printf_dec}, 
+		{"%p", printf_pointer}
 	};
 
-	int k;
+	va_list args;
+	int i = 0, j, len = 0;
 
-	for (k = 0; printf[k].p != '\0'; k++)
+	va_start(args, format);
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+		return (-1);
+
+Here:
+	while (format[i] != '\0')
 	{
-		if (printf[k].p == a)
+		j = 13;
+		while (j >= 0)
 		{
-			return (printf[k].func);
+			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			{
+				len += m[j].f(args);
+				i = i + 2;
+				goto Here;
+			}
+			j--;
 		}
+		_putchar(format[i]);
+		len++;
+		i++;
 	}
-
-	return (0);
+	va_end(args);
+	return (len);
 }

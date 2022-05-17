@@ -1,106 +1,151 @@
 #include "main.h"
+
 /**
- * _putchar - Entry function. Write characteres
- * @c: variable va_list
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
  *
- * Return: Writed character
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
 /**
- * printc - Entry function. Print character
- * @list: variable va_list
- *
- * Return: 1 (nbyte)
+ * printf_char - prints a char.
+ * @val: arguments.
+ * Return: 1.
  */
-int printc(va_list list)
+int printf_char(va_list val)
 {
-	_putchar(va_arg(list, int));
-	return (1);
+	char s;
 
+	s = va_arg(val, int);
+	_putchar(s);
+	return (1);
 }
 /**
- * print_string - Entry point. Print string
- * @s: variable va_list
- *
- * Return: k (nbytes) 6 (NULL)
+ * printf_string - print a string.
+ * @val: argumen t.
+ * Return: the length of the string.
  */
-int print_string(va_list s)
-{
-	char *str;
-	int k;
 
-	str = va_arg(s, char*);
-	if (str == NULL)
+int printf_string(va_list val)
+{
+	char *s;
+	int i, len;
+
+	s = va_arg(val, char *);
+	if (s == NULL)
 	{
-		write(1, "(null)", 6);
-		return (6);
+		s = "(null)";
+		len = _strlen(s);
+		for (i = 0; i < len; i++)
+			_putchar(s[i]);
+		return (len);
 	}
 	else
 	{
-		for (k = 0; str[k] != '\0'; k++)
-		{
-			_putchar(str[k]);
-		}
+		len = _strlen(s);
+		for (i = 0; i < len; i++)
+			_putchar(s[i]);
+		return (len);
 	}
-	return (k);
 }
-
 /**
- * print1-37 - print the char 37
+ * printf_37 - prints the char 37.
  * Return: 1.
  */
 int printf_37(void)
 {
 	_putchar(37);
-	return(1);
+	return (1);
 }
-
 /**
- * print_n - Entry point. Print number
- * @n: Variable va_list
- *
- * Return: count (nbytes)
+ * printf_dec - prints decimal
+ * @args: argument to print
+ * Return: number of characters printed
  */
-int print_n(va_list n)
+
+int printf_dec(va_list args)
 {
+	int n = va_arg(args, int);
+	int num, last = n % 10, digit;
+	int  i = 1;
+	int exp = 1;
 
-	long int number;
-	int counter, aux_variable, base;
+	n = n / 10;
+	num = n;
 
-	counter = 0;
-	number = va_arg(n, int);
-
-	if (number < 0)
+	if (last < 0)
 	{
-		number *= -1;
-		_putchar(45);
-		counter++;
+		_putchar('-');
+		num = -num;
+		n = -n;
+		last = -last;
+		i++;
 	}
-	if (number >= 0 && number <= 9)
+	if (num > 0)
 	{
-		_putchar(number + 48);
-		counter++;
-	}
-	if (number > 9)
-	{
-		base = 10;
-
-		while (number / base > 9)
+		while (num / 10 != 0)
 		{
-			base *= 10;
+			exp = exp * 10;
+			num = num / 10;
 		}
-
-		while (base > 0)
+		num = n;
+		while (exp > 0)
 		{
-			aux_variable = number / base;
-			number = number % base;
-			_putchar(aux_variable + 48);
-			base = base / 10;
-			counter++;
+			digit = num / exp;
+			_putchar(digit + '0');
+			num = num - (digit * exp);
+			exp = exp / 10;
+			i++;
 		}
 	}
-	return (counter);
+	_putchar(last + '0');
+
+	return (i);
+}
+/**
+ * printf_int - prints integer
+ * @args: argument to print
+ * Return: number of characters printed
+ */
+int printf_int(va_list args)
+{
+	int n = va_arg(args, int);
+	int num, last = n % 10, digit, exp = 1;
+	int  i = 1;
+
+	n = n / 10;
+	num = n;
+
+	if (last < 0)
+	{
+		_putchar('-');
+		num = -num;
+		n = -n;
+		last = -last;
+		i++;
+	}
+	if (num > 0)
+	{
+		while (num / 10 != 0)
+		{
+			exp = exp * 10;
+			num = num / 10;
+		}
+		num = n;
+		while (exp > 0)
+		{
+			digit = num / exp;
+			_putchar(digit + '0');
+			num = num - (digit * exp);
+			exp = exp / 10;
+			i++;
+		}
+	}
+	_putchar(last + '0');
+
+	return (i);
 }
