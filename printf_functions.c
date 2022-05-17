@@ -2,8 +2,9 @@
 /**
  * _putchar - Entry function. Write characteres
  * @c: variable va_list
+ *
  * Return: Writed character
- * */
+ */
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
@@ -11,6 +12,7 @@ int _putchar(char c)
 /**
  * printc - Entry function. Print character
  * @list: variable va_list
+ *
  * Return: 1 (nbyte)
  */
 int printc(va_list list)
@@ -22,13 +24,14 @@ int printc(va_list list)
 /**
  * print_string - Entry point. Print string
  * @s: variable va_list
+ *
  * Return: k (nbytes) 6 (NULL)
  */
 int print_string(va_list s)
 {
 	char *str;
 	int k;
-	
+
 	str = va_arg(s, char*);
 	if (str == NULL)
 	{
@@ -37,7 +40,7 @@ int print_string(va_list s)
 	}
 	else
 	{
-	for (k = 0; str[k] != '\0'; k++)
+		for (k = 0; str[k] != '\0'; k++)
 		{
 			_putchar(str[k]);
 		}

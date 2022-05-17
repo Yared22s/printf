@@ -8,9 +8,9 @@
 #include <unistd.h>
 
 /**
- * struct types - structure specifier for printf
+ * struct types - specifier structure for printf
  * @p: pointer to characteres specifiers
- * @func : pointer to print fucntions
+ * @func : function pointer to print fucntions
  */
 typedef struct types
 {
@@ -24,6 +24,5 @@ int printc(va_list l);
 int print_string(va_list s);
 int (*cmp_func(const char a))(va_list);
 int print_n(va_list n);
-int printperc(va_list perc);
 
-#endif 
+#endif /* MAIN_H */
