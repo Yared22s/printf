@@ -1,139 +1,104 @@
-#include <stdlib.h>
-#include <stdarg.h>
 #include "main.h"
-
 /**
- * p_char - prints character c
- * @arg: character to print
+ * _putchar - Entry function. Write characteres
+ * @c: variable va_list
+ * Return: Writed character
+ * */
+int _putchar(char c)
+{
+	return (write(1, &c, 1));
+}
+/**
+ * printc - Entry function. Print character
+ * @list: variable va_list
+ * Return: 1 (nbyte)
+ */
+int printc(va_list list)
+{
+	_putchar(va_arg(list, int));
+	return (1);
+
+}
+/**
+ * print_string - Entry point. Print string
+ * @s: variable va_list
+ * Return: k (nbytes) 6 (NULL)
+ */
+int print_string(va_list s)
+{
+	char *str;
+	int k;
+	
+	str = va_arg(s, char*);
+	if (str == NULL)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	else
+	{
+	for (k = 0; str[k] != '\0'; k++)
+		{
+			_putchar(str[k]);
+		}
+	}
+	return (k);
+}
+/**
+ * printpercent - prints %
+ * @format: format
+ * @pa: va_list
  * Return: number of characters printed
  */
-int p_char(va_list arg)
+int printpercent(va_list pa)
 {
-	char c;
-
-	c = va_arg(arg, int);
-
-	_putchar(c);
-
+	(void)pa;
+	_putchar('%');
 	return (1);
 }
-
 /**
- * p_str - prints string s
- * @arg: string to print
- * Return: number of characters printed
+ * print_n - Entry point. Print number
+ * @n: Variable va_list
+ *
+ * Return: count (nbytes)
  */
-int p_str(va_list arg)
+int print_n(va_list n)
 {
-	unsigned int i;
-	char *s;
 
-	s = va_arg(arg, char *);
+	long int number;
+	int counter, aux_variable, base;
 
-	i = 0;
+	counter = 0;
+	number = va_arg(n, int);
 
-	if (s == NULL)
-		s = "(null)";
-
-	while (s[i] != '\0')
+	if (number < 0)
 	{
-		_putchar(s[i]);
-		i++;
+		number *= -1;
+		_putchar(45);
+		counter++;
 	}
-
-	return (i);
-}
-
-/**
- * p_dec - prints decimal
- * @arg: argument to print
- * Return: number of characters printed
- */
-int p_dec(va_list arg)
-{
-	int n = va_arg(arg, int);
-	int num;
-	int last = n % 10;
-	int dig;
-	int exp = 1;
-	int i = 1;
-
-	n = n / 10;
-	num = n;
-
-	if (last < 0)
+	if (number >= 0 && number <= 9)
 	{
-		_putchar('-');
-		num = -num;
-		n = -n;
-		last = -last;
-		i++;
+		_putchar(number + 48);
+		counter++;
 	}
-	if (num > 0)
+	if (number > 9)
 	{
-		while (num / 10 != 0)
+		base = 10;
+
+		while (number / base > 9)
 		{
-			exp = exp * 10;
-			num = num / 10;
+			base *= 10;
 		}
-		num = n;
-		while (exp > 0)
+
+		while (base > 0)
 		{
-			dig = num / exp;
-			_putchar(dig + '0');
-			num = num - (dig * exp);
-			exp = exp / 10;
-			i++;
+			aux_variable = number / base;
+			number = number % base;
+			_putchar(aux_variable + 48);
+			base = base / 10;
+			counter++;
 		}
 	}
-	_putchar(last + '0');
-
-	return (i);
-}
-
-/**
- * p_int - prints integer
- * @arg: argument to print
- * Return: number of characters printed
- */
-int p_int(va_list arg)
-{
-	int n = va_arg(arg, int);
-	int num;
-	int last = n % 10;
-	int dig;
-	int exp = 1;
-	int i = 1;
-
-	n = n / 10;
-	num = n;
-
-	if (last < 0)
-	{
-		_putchar('-');
-		num = -num;
-		n = -n;
-		last = -last;
-		i++;
-	}
-	if (num > 0)
-	{
-		while (num / 10 != 0)
-		{
-			exp = exp * 10;
-			num = num / 10;
-		}
-		num = n;
-		while (exp > 0)
-		{
-			dig = num / exp;
-			_putchar(dig + '0');
-			num = num - (dig * exp);
-			exp = exp / 10;
-			i++;
-		}
-	}
-	_putchar(last + '0');
-
-	return (i);
+	return (counter);
 }

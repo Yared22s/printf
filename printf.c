@@ -1,65 +1,78 @@
-#include <stdlib.h>
-#include <stdarg.h>
 #include "main.h"
-
 /**
- * _printf - produces output according to a format
- * @format: character string
- * Return: number of characters printed excluding null byte
+ * _printf - printf function.
+ * @format: variable
+ *
+ * Return: nbytes printed.
  */
 int _printf(const char *format, ...)
 {
-	va_list arg;
-	unsigned int i, j, flag;
-	unsigned int len = 0;
+	va_list list;
+	unsigned int i = 0, characters_number = 0;
 
-	print_t print[] = {
-		{"c", p_char}, {"s", p_str}, {"d", p_dec}, {"i", p_int},
-		{NULL, NULL}
-	};
+	if (!format)
+		return (-1);
 
-	va_start(arg, format);
-
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-		return (0);
-
-	i = 0;
-	while (format[i] != '\0')
+	va_start(list, format);
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		if (format[i] == '%' && format[i + 1] != '%')
+		if (format[i] == '%')
 		{
-			j = 0;
-			flag = 0;
-			while (print[j].p != NULL)
+			if (format[i + 1] == '\0')
+				return (-1);
+
+			else if (format[i + 1] == '%')
 			{
-				if (format[i + 1] == print[j].print[0])
-				{
-					len = len + print[j].p(arg);
-					flag = 1;
-					i++;
-				}
-				j++;
+				_putchar('%');
+				characters_number++;
+				i++;
 			}
-			if (flag == 0)
+			else if (format[i + 1] == '%')
+			{
+				_putchar('%%');
+				characters_number++;
+				i++;	
+			}
+			else if (cmp_func(format[i + 1]) != NULL)
+			{
+				characters_number += (cmp_func(format[i + 1]))(list);
+				i++;
+			}
+			else
 			{
 				_putchar(format[i]);
-				len = len + 1;
+				characters_number++;
 			}
-		}
-		else if (format[i] == '%' && format[i + 1] == '%')
-		{
-			_putchar('%');
-			i++;
-			len = len + 1;
 		}
 		else
 		{
 			_putchar(format[i]);
-			len = len + 1;
+			characters_number++;
 		}
-		i++;
 	}
-	va_end(arg);
+	va_end(list);
+	return (characters_number);
+}
+int (*cmp_func(const char a))(va_list)
+{
+	print_f printf[] = {
+		{'c', printc},
+		{'s', print_string},
+		{'%', printpercent},
+		{'d', print_n},
+		{'i', print_n},
+		{'\0', NULL}
+	};
 
-	return (len);
+	int k;
+
+	for (k = 0; printf[k].p != '\0'; k++)
+	{
+		if (printf[k].p == a)
+		{
+			return (printf[k].func);
+		}
+	}
+
+	return (0);
 }
