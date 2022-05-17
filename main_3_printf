@@ -14,6 +14,8 @@ To use _printf you have to use the following key characters preceeded by % symbo
 .RS 0
 %s: To be used to print strings
 .RS 0
+% symbol is set without argument and conversion specification has to be'%%'.
+.RS 0
 %d: To print integers of max and min size of an int type
 .RS 0
 %i: To print integers of max and min size of an int type
