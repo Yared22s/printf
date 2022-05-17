@@ -45,18 +45,6 @@ int print_string(va_list s)
 	return (k);
 }
 /**
- * printpercent - prints %
- * @format: format
- * @pa: va_list
- * Return: number of characters printed
- */
-int printpercent(va_list pa)
-{
-	(void)pa;
-	_putchar('%');
-	return (1);
-}
-/**
  * print_n - Entry point. Print number
  * @n: Variable va_list
  *
