@@ -47,17 +47,15 @@ int print_string(va_list s)
 	}
 	return (k);
 }
-
 /**
- * print1-37 - print the char 37
+ * printf_37 - prints the char 37.
  * Return: 1.
  */
 int printf_37(void)
 {
 	_putchar(37);
-	return(1);
+	return (1);
 }
-
 /**
  * print_n - Entry point. Print number
  * @n: Variable va_list

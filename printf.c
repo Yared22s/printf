@@ -20,6 +20,7 @@ int _printf(const char *format, ...)
 		{
 			if (format[i + 1] == '\0')
 				return (-1);
+
 			else if (format[i + 1] == '%')
 			{
 				_putchar('%');
@@ -51,7 +52,7 @@ int (*cmp_func(const char a))(va_list)
 	print_f printf[] = {
 		{'c', printc},
 		{'s', print_string},
-		{'%%', print_37},
+		{"%", print_37},
 		{'d', print_n},
 		{'i', print_n},
 		{'\0', NULL}
