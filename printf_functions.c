@@ -3,7 +3,7 @@
  * _putchar - Entry function. Write characteres
  * @c: variable va_list
  * Return: Writed character
- */
+ * */
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
@@ -39,7 +39,7 @@ int print_string(va_list s)
 	{
 	for (k = 0; str[k] != '\0'; k++)
 		{
-															_putchar(str[k]);
+			_putchar(str[k]);
 		}
 	}
 	return (k);
