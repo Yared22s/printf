@@ -1,76 +1,92 @@
-#include <stdio.h>
-#include <stdarg.h>
 #include "main.h"
-
 /**
- * fun_string - print string
- * @arguments: va_list
- * Return: string
+ * _putchar - Entry function. Write characteres
+ * @c: variable va_list
+ * Return: Writed character
+ * */
+int _putchar(char c)
+{
+	return (write(1, &c, 1));
+}
+/**
+ * printc - Entry function. Print character
+ * @list: variable va_list
+ * Return: 1 (nbyte)
  */
-int fun_string(va_list arguments)
+int printc(va_list list)
+{
+	_putchar(va_arg(list, int));
+	return (1);
+
+}
+/**
+ * print_string - Entry point. Print string
+ * @s: variable va_list
+ * Return: k (nbytes) 6 (NULL)
+ */
+int print_string(va_list s)
 {
 	char *str;
-	int i = 0;
-
-	str = va_arg(arguments, char *);
+	int k;
+	
+	str = va_arg(s, char*);
 	if (str == NULL)
 	{
-		str = "(null)";
-	}
-	for (; *str; str++)
-	{
-		putchar(*str);
-		i++;
-	}
-	return (i);
-}
-
-/**
- * fun_character - print character
- * @arguments: va_list
- * Return: character
- */
-int fun_character(va_list arguments)
-{
-	int x = 0;
-
-	x = va_arg(arguments, int);
-	_putchar(x);
-	return (1);
-}
-
-/**
- * fun_integer - print integer and digit
- * @arguments: va_list
- * Return: int
- */
-int fun_integer(va_list arguments)
-{
-	int i, d, length;
-	unsigned int x;
-
-	i  = va_arg(arguments, int);
-	d = 1;
-	length = 0;
-
-	if (i < 0)
-	{
-		length = length + _putchar('-');
-		x = i * -1;
+		write(1, "(null)", 6);
+		return (6);
 	}
 	else
 	{
-		x = i;
+	for (k = 0; str[k] != '\0'; k++)
+		{
+			_putchar(str[k]);
+		}
 	}
+	return (k);
+}
+/**
+ * print_n - Entry point. Print number
+ * @n: Variable va_list
+ *
+ * Return: count (nbytes)
+ */
+int print_n(va_list n)
+{
 
-	while (x / d > 9)
-	d = d * 10;
+	long int number;
+	int counter, aux_variable, base;
 
-	while (d != 0)
+	counter = 0;
+	number = va_arg(n, int);
+
+	if (number < 0)
 	{
-		length = length + _putchar('0' + x / d);
-		x = x % d;
-		d = d / 10;
+		number *= -1;
+		_putchar(45);
+		counter++;
 	}
-	return (length);
+	if (number >= 0 && number <= 9)
+	{
+		_putchar(number + 48);
+		counter++;
+	}
+	if (number > 9)
+	{
+		base = 10;
+
+		while (number / base > 9)
+		{
+			base *= 10;
+		}
+
+		while (base > 0)
+		{
+			aux_variable = number / base;
+			number = number % base;
+			_putchar(aux_variable + 48);
+			base = base / 10;
+			counter++;
+		}
+	}
+	return (counter);
 }
