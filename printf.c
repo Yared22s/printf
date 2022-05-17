@@ -67,6 +67,5 @@ int (*cmp_func(const char a))(va_list)
 			return (printf[k].func);
 		}
 	}
-int print_37();
 	return (0);
 }
