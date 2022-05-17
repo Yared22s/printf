@@ -1,71 +1,53 @@
-#include "main.h"
+#include <stdlib.h>
+#include <stdarg.h>
+#include "holberton.h"
 /**
- * _printf - printf function.
- * @format: variable
- *
- * Return: nbytes printed.
+ * _printf - print anything
+ * @format: arguments
+ * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	va_list list;
-	unsigned int i = 0, characters_number = 0;
+	va_list arguments;
+	const char *p;
+	int num = 0;
 
-	if (!format)
+	if (format == NULL)
 		return (-1);
-
-	va_start(list, format);
-	for (i = 0; format[i] != '\0'; i++)
+	va_start(arguments, format);
+	for (p = format; *p; p++)
 	{
-		if (format[i] == '%')
+		if (*p == '%' && *p + 1 == '%')
 		{
-			if (format[i + 1] == '\0')
-				return (-1);
-
-			else if (format[i + 1] == '%')
+			_putchar(*p), num++;
+			continue;
+		}
+		else if (*p == '%' && *p + 1 != '%')
+		{
+			switch (*++p)
 			{
-				_putchar('%');
-				characters_number++;
-				i++;
-			}
-			else if (cmp_func(format[i + 1]) != NULL)
-			{
-				characters_number += (cmp_func(format[i + 1]))(list);
-				i++;
-			}
-			else
-			{
-				_putchar(format[i]);
-				characters_number++;
+				case 's':
+					num += fun_string(arguments);
+					break;
+				case 'c':
+					num += fun_character(arguments);
+					break;
+				case '%':
+					_putchar('%'), num++;
+					break;
+				case '\0':
+					return (-1);
+				case 'i':
+				case 'd':
+					num += fun_integer(arguments);
+					break;
+				default:
+					_putchar('%'), _putchar(*p), num += 2;
 			}
 		}
 		else
-		{
-			_putchar(format[i]);
-			characters_number++;
-		}
+			_putchar(*p), num++;
 	}
-	va_end(list);
-	return (characters_number);
-}
-int (*cmp_func(const char a))(va_list)
-{
-	print_f printf[] = {
-		{'c', printc},
-		{'s', print_string},
-		{'d', print_n},
-		{'i', print_n},
-		{'\0', NULL}
-	};
-
-	int k;
-
-	for (k = 0; printf[k].p != '\0'; k++)
-	{
-		if (printf[k].p == a)
-		{
-			return (printf[k].func);
-		}
-	}
-
-	return (0);
+va_end(arguments);
+return (num);
 }
