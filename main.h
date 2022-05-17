@@ -4,32 +4,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-#include <limits.h>
+#include <string.h>
 #include <unistd.h>
 
-
-
 /**
- * struct format - match the conversion specifiers for printf
- * @id: type char pointer of the specifier i.e (l, h) for (d, i, u, o, x, X)
- * @f: type pointer to function for the conversion specifier
- *
+ * struct types - specifier structure for printf
+ * @p: pointer to characteres specifiers
+ * @func : function pointer to print fucntions
  */
-
-typedef struct format
+typedef struct types
 {
-	char *id;
-	int (*f)();
-} convert_match;
+	char p;
+	int (*func)(va_list);
+} print_f;
 
 int _putchar(char c);
 int _printf(const char *format, ...);
-int printf_char(va_list val);
-int printf_string(va_list val);
-int _strlen(char *s);
-int printf_37(void);
-int printf_dec(va_list args);
-int printf_int(va_list args);
-int printf_pointer(va_list val);
-
-#endif
+int printc(va_list l);
+int print_string(va_list s);
+int (*cmp_func(const char a))(va_list);
+int print_n(va_list n);
+int print_37(void);
+#endif /* MAIN_H */

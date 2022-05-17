@@ -1,45 +1,71 @@
 #include "main.h"
 /**
- * printf - is a function that selects the correct function to print.
- * @format: identifier to look for.
- * Return: nbyts printed.
+ * _printf - printf function.
+ * @format: variable
+ *
+ * Return: nbytes printed.
  */
-int _printf(const char * const format, ...)
+int _printf(const char *format, ...)
 {
-	convert_match m[] = {
-		{"%s", printf_string}, 
-		{"%c", printf_char},
-		{"%%", printf_37},
-		{"%i", printf_int}, 
-		{"%d", printf_dec}, 
-		{"%p", printf_pointer}
-	};
+	va_list list;
+	unsigned int i = 0, characters_number = 0;
 
-	va_list args;
-	int i = 0, j, len = 0;
-
-	va_start(args, format);
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+	if (!format)
 		return (-1);
 
-Here:
-	while (format[i] != '\0')
+	va_start(list, format);
+	for (i = 0; format[i] != '\0'; i++)
 	{
-		j = 13;
-		while (j >= 0)
+		if (format[i] == '%')
 		{
-			if (m[j].id[0] == format[i] && m[j].id[1] == format[i + 1])
+			if (format[i + 1] == '\0')
+				return (-1);
+			else if (format[i + 1] == '%')
 			{
-				len += m[j].f(args);
-				i = i + 2;
-				goto Here;
+				_putchar('%');
+				characters_number++;
+				i++;
 			}
-			j--;
+			else if (cmp_func(format[i + 1]) != NULL)
+			{
+				characters_number += (cmp_func(format[i + 1]))(list);
+				i++;
+			}
+			else
+			{
+				_putchar(format[i]);
+				characters_number++;
+			}
 		}
-		_putchar(format[i]);
-		len++;
-		i++;
+		else
+		{
+			_putchar(format[i]);
+			characters_number++;
+		}
 	}
-	va_end(args);
-	return (len);
+	va_end(list);
+	return (characters_number);
+}
+int (*cmp_func(const char a))(va_list)
+{
+	print_f printf[] = {
+		{'c', printc},
+		{'s', print_string},
+		{'%', print_37},
+		{'d', print_n},
+		{'i', print_n},
+		{'\0', NULL}
+	};
+
+	int k;
+
+	for (k = 0; printf[k].p != '\0'; k++)
+	{
+		if (printf[k].p == a)
+		{
+			return (printf[k].func);
+		}
+	}
+
+	return (0);
 }
